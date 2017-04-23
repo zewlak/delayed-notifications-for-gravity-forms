@@ -1,0 +1,33 @@
+.admin-page-framework-content ul li {
+    margin-left: 2em;    
+    list-style-type: disc;
+}
+.admin-page-framework-content {
+    display: block;
+}
+.admin-page-framework-content a{
+    text-decoration: none;
+}
+
+.donate-button {
+    max-width: 100px;
+}
+.donate-button img {
+    width: 100%;
+}
+
+.video.oembed iframe {
+    max-width: 80%;
+}
+
+.new-version-notification {
+    font-weight: 500;
+}
+
+span.header-icon {
+    margin-right: 0.4em;
+}
+
+.float-right {
+    float:right;
+}

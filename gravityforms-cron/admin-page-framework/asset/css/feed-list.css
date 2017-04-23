@@ -1,0 +1,23 @@
+.apfl_feed_item_title {
+    font-size: 1.4em;
+    text-align: center;    
+}
+.apfl_feed_item_link_button {
+    text-align: center;        
+}
+.apfl_addon_item {
+    border: 1px solid #bbb;
+    background-color: #fff;
+    padding: 0.5em 2em 3em 2em;
+}
+.apfl_addon_item  img {
+    max-width: 100%;
+}
+.apfl_feed_item_description {
+    padding-bottom: 1em;
+}
+.apfl_feed_item_description img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

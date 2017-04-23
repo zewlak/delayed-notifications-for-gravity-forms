@@ -1,0 +1,261 @@
+== New Features ==
+<h3>Nested Sections</h3>
+
+Finally, we can nest form sections. This allows you to construct complex forms with combinations of sections such as collapsible sections inside tabbed sections.
+
+<div class='main-image'>
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/nested_sections.jpg" alt="Nested Sections">
+</div>
+
+<h3>Pointer Tool Tips</h3>
+
+With the newly introduced class, `AdminPageFramework_PointerToolTip`, you can now easily show small instructions to your users by adding a pointer tool tip which pops up in your desired screen at the targeted element. It will not be displayed once the user dismisses it.
+
+<div class='main-image'>
+    <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/pointer_tool_tips.jpg" alt="Pointer Tool Tip">
+</div>
+
+<div class='apfl_columns_row'>
+
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_2'>
+        <div class='apfl_cell'>
+            <h3>Tool Tips</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/tool_tip.jpg" alt="Tool Tips">
+            <p>With the <code>tip</code> argument of sections and fields, now a tool tip box will appear by hovering the cursor over the question mark inserted beside the title.</p>
+        </div> 
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_2'>
+        <div class='apfl_cell'>
+            <h3>Collapsible Button</h3>
+            <img src="%PLUGIN_DIR_URL%/asset/image/new_feature/collapsible_button.jpg" alt="Collapsible Button">
+            <p>Besides the existent collapsible section style, a new style has been added and you can now fold/unfold seciton contents with a button.</p>
+        </div>
+    </div>
+
+</div>
+
+
+<div class='apfl_columns_row'>
+
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>    
+            <h3>Better Form Appearing</h3>
+            <p>If you create a form with lots of elements, unformatted tabbed sections used to be displayed until the document was completely loaded.</p>
+            <p>The newly introduced mechanism to render forms makes it visually comfortable and we have no more buggy look during the page load.</p>
+        </div>
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>    
+            <h3>Better Admin Notice Appearing</h3>
+            <p>Smilar to the entire form outputs, the system notification boxes at the top of the screen also used appear jumpy.</p>
+            <p>This behavior also has been improved and now it renders somoothly.</p>
+        </div>
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>Under the Hood</h3>
+            <p>The form class has been overhauled and now it serves as an indivitual component. This is a preparation change to support front-end forms.</p>
+        </div> 
+    </div>
+</div>
+
+<div class='apfl_columns_row'>    
+    <div class='apfl_columns_first_col apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>Fixes and Clean-ups</h3>
+            <p>Several bugs have been patched and the directory structure has been restructured to shorten overall file paths.</p>
+        </div>  
+    </div>
+
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+        <div class='apfl_cell'>
+            <h3>More Changes</h3>
+            <p>Find out the more details of new changes <a href="%WP_ADMIN_URL%?page=apfl_about#section-change_log__">here</a>.</p>
+        </div> 
+    </div>    
+    
+    <div class='apfl_columns_col apfl_col_element_of_3'>
+         <div class='apfl_cell'>
+        </div> 
+    </div>    
+    
+</div>
+
+== Getting Started ==
+
+![My First Page](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_page.png "My First Page")
+
+<h3>Write Your First Plugin</h3>
+Let's create a very simple plugin to understand the whole workflow of using Admin Page Framework.
+
+<h3>Step 1 - Get the Files</h3>
+
+![Component Generator](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin.png "Component Generator")
+
+First, you need to have your own copy of the framework files. 
+
+1. Go to **Dashboard** -> **Admin Page Framework** -> **Tools** -> **[Generator](%WP_ADMIN_URL%/admin.php?page=apfl_tools)**.
+2. **(Important!)** Enter your unique prefix. If your plugin is named, let's say "My First Plugin" then you may set the prefix "`MyFirstPlugin_`".
+3. Also set the text domain of your project, `my-first-plugin` as an example. This will be used when creating translation files.
+4. Download the file by pressing **Download**.
+5. If download is successful, you'll get a zip file named `{your text domain-}admin-page-framework.zip`. Extract the contents to your preferred location at your convenience. 
+Make sure `admin-page-framework.php`, `admin-page-framework-include-class-list.php` and some other sub-directories are present in the extracted directory.
+
+<h3>Step 2 - Include the Framework</h3>
+
+Now it is time to code. In your code editor, insert your plugin header comment to tell WordPress that it is a plugin.
+
+`
+/* Plugin Name: My Plugin */
+`
+
+Next, you need to tell PHP to include the framework you just downloaded. The file name to include is `admin-page-framework.php`, the bootstrap script of the framework.
+
+Assuming your class prefix set in the above step is `MyFirstPlugin_`, then your factory class name to extend will be `MyFirstPlugin_AdminPageFramework`. If you have not set the prefix, it will be just `AdminPageFramework`.
+
+So check if that class name has been already loaded. And if not, load it. To load a PHP file, you can use the `include()` PHP function and pass the framework path to it (set your own path there).
+
+`
+include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
+if ( ! class_exists( 'MyFirstPlugin_AdminPageFramework' ) ) {
+    return;
+}
+`
+
+<h3>Step 3 - Extend the Factory Class</h3>
+By extending the framework admin factory class, you can add your own desired functionality on top of it.
+
+`
+class MyFirstPlugin extends MyFirstPlugin_AdminPageFramework {
+
+  ... our code comes here ...
+   
+}
+`
+
+<h3>Step 4 - Define the <em>setUp()</em> Method</h3>
+Now we need to tell the framework what page to create. 
+The factory class already defines certain methods. If you extend the class, your extended class already has those methods.
+The `setUp()` method is one of them, and in this method, you set up necessary configurations.
+
+The `setRootMenuPage()` method allows you to set the top-level page and the `addSubMenuItem()` method allows you to add sub-menu pages and links.
+
+Let's add a page to the `Settings` page. You need to decide what pag slug to use. Pick a unique one. Here we use `my_first_page` as an example.
+
+`
+public function setUp() {
+    $this->setRootMenuPage( 'Settings' ); 
+    $this->addSubMenuItem(
+        array(
+            'title'     => 'My First Page',
+            'page_slug' => 'my_first_page',
+        )
+    ); 
+}
+`
+
+<h3>Step 5 - Define the Methods for Hooks</h3>
+Now you can insert your own output of the page with some of the pre-defined callback methods.
+
+One of them is `do_{page slug}` method. You define a method named like so and it will be automatically gets called.
+
+`
+public function do_my_first_page() {
+    ?>
+    <h3>Say Something</h3>
+    <p>This is my first admin page!</p>
+    <?php
+}
+`
+
+<h3>Step 6 - Instantiate the Class</h3>
+You need to instantiate the class you defined. When it is instantiated, it will run the internal constructor and takes care of everything needed to create admin pages for you.
+
+`
+new MyFirstPlugin;
+`
+
+![Plugin Listed](%PLUGIN_DIR_URL%/asset/image/getting_started/my_first_plugin_in_plugin_list_table.png "Plugin Listed")
+
+And your code is now ready to run as a plugin. Compress it in a zip file and upload it to your WordPres site.
+
+<h3>Example Plugin</h3>
+**[Download](https://github.com/michaeluno/my-first-plugin/archive/master.zip)**
+`
+<?php
+/* Plugin Name: My First Plugin */ 
+
+// Set your own path here
+include( dirname( __FILE__ ) . '/library/admin-page-framework/admin-page-framework.php' );
+if ( ! class_exists( 'MyFirstPlugin_AdminPageFramework' ) ) {
+    return;
+}
+
+class MyFirstPlugin extends MyFirstPlugin_AdminPageFramework {
+    
+    /**
+     * Sets up pages. 
+     */
+    public function setUp() {
+        $this->setRootMenuPage( 'Settings' ); 
+        $this->addSubMenuItem(
+            array(
+                'title'     => 'My First Page',
+                'page_slug' => 'my_first_page'
+            )
+        );
+    }
+    
+    /**
+     * Triggered in the middle of rendering the page.
+     * 
+     * Inserts your custom contents here.
+     * 
+     * @remark      do_{page slug}
+     */
+    public function do_my_first_page() {
+        ?>
+        <h3>Say Something</h3>
+        <p>This is my first admin page!</p>
+        <?php   
+    }
+
+}
+
+new MyFirstPlugin;
+`
+
+See it's very short and simple, huh?
+
+There are different types of factory classes for different functionality besides the admin page factory class you just used.
+
+By extending them like just you did, you can create post types, meta boxes, widgets, user meta fields, and taxonomy fields.
+
+== Tutorials ==
+Check out the [tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3/) as well.
+
+== Support ==
+<h3>Documentation</h3>
+- [Online Manual](http://admin-page-framework.michaeluno.jp/en/v3/package-AdminPageFramework.html).
+- [Tutorials](http://en.michaeluno.jp/admin-page-framework/tutorials-v3)
+
+<h3>Getting Helped</h3>
+Have questions? Visit the [support forum](https://wordpress.org/support/plugin/admin-page-framework).
+
+<h3>Help the Developer</h3>
+
+Admin Page Framework won't grow without your support. There are various ways to contribute.
+
+- <div class="donate-button">
+    <a href="http://en.michaeluno.jp/donate"><img src="%PLUGIN_DIR_URL%/asset/image/donation.gif" alt="Donate" /></a>
+</div>
+
+- Write a <strong>[review](https://wordpress.org/support/view/plugin-reviews/admin-page-framework?filter=5)</strong>.
+
+<h3>Get Involved</h3>
+- Post [ideas](https://github.com/michaeluno/admin-page-framework/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open).
+- Translate.
+- Report [bugs](https://github.com/michaeluno/admin-page-framework/issues).
