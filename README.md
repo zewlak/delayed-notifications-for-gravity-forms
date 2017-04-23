@@ -1,4 +1,4 @@
-H1 Delayed notifications for Gravity Forms
+# Delayed notifications for Gravity Forms
 
 With this plugin you can set delayed notifications for your forms in easy steps.
 
@@ -18,5 +18,3 @@ You can also browse all notifications planed to be send per entry.
 ![alt text](http://www.zewlak.com/wp-content/uploads/2016/01/delayed.png "Notification configuration view")
 
 Notifications schedule execution is based on WP-Cron with all it’s pros and cons. More about WP-Cron [here](http://code.tutsplus.com/articles/insights-into-wp-cron-an-introduction-to-scheduling-tasks-in-wordpress--wp-23119).
-—
-cron, delay, forms, gravity, plugin, schedule, wordpress
