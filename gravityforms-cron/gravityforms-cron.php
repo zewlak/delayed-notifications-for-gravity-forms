@@ -89,7 +89,7 @@ add_filter( 'gform_notification_events', 'gw_add_manual_notification_event' );
 function gw_add_manual_notification_event( $events ) {
 	
 	$crons = AdminPageFramework::getOption( 'APF_AddFields', 'gfc_crons' );
-	$crons[] = array('size' => 5, 'unit'=> 'min');
+	$crons[] = array('size' => 5, 'unit'=> 'm');
 	if(sizeof($crons)){
 		foreach($crons as $cron){
 			if(!is_array($cron)) continue;
