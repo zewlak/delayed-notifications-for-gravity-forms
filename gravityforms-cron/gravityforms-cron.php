@@ -139,7 +139,11 @@ function gfc_send_cron_notification( $options) {
 	$event = $options->event;
 	$form = GFAPI::get_form($options->form_id);
 	$lead = GFAPI::get_entry($options->entry_id);
-	GFCommon::send_notifications( $options->notifications, $form, $lead, true, $event );
+	
+	// add a filter to alter the notifications to send (it is too late to use gform_disable_notification)
+	$notifications_to_send = apply_filters('gfc_notifications_to_send', $options->notifications, $form, $lead);
+	
+	GFCommon::send_notifications( $notifications_to_send, $form, $lead, true, $event );
 	die();
 }
 
