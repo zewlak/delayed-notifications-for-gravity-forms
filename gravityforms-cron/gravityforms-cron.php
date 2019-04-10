@@ -70,7 +70,7 @@ function get_events_from_settings(){
 	$events = array();
 	$crons = AdminPageFramework::getOption( 'APF_AddFields', 'gfc_crons' );
 	
-	$crons[] = array('size' => 5, 'unit'=> 'min');
+	$crons[] = array('size' => 5, 'unit'=> 'm');
 	if(sizeof($crons)){
 		foreach($crons as $cron){
 			if(!is_array($cron)) continue;
@@ -516,7 +516,7 @@ class TT_Example_List_Table extends WP_List_Table {
 									
 									$element = array(
 										'ID'        => $cronId,
-										'entry'    => 'Entry id: <a href="http://www.zewlak.com/wp-admin/admin.php?page=gf_entries&view=entry&id='.$form['id'].'&lid='.$lead['id'].'&dir=DESC&filter&paged=1&pos=0&field_id&operator">'.$lead['id'].'</a>',
+										'entry'    => 'Entry id: <a href="'. admin_url ('admin.php?page=gf_entries&view=entry&id='.$form['id'].'&lid='.$lead['id'].'&dir=DESC&filter&paged=1&pos=0&field_id&operator').'">'.$lead['id'].'</a>',
 										'title'     => $form['title'],
 										'date'    => gfc_get_next_cron_execution($timestamp,$options->event),
 										'form'  => $form['notifications'][$notification]['name']
