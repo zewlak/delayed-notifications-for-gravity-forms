@@ -77,6 +77,13 @@ function get_events_from_settings(){
 			$cronName = 'cron_'.$cron['size'].'_'.$cron['unit'];
 			$events[] = $cronName;
 		}
+		if ( class_exists( 'GF_Partial_Entries' ) ) {
+			foreach($crons as $cron){
+				if(!is_array($cron)) continue;
+				$cronName = 'partial_cron_'.$cron['size'].'_'.$cron['unit'];
+				$events[] = $cronName;
+			}
+		}
 	}
 	
 	return $events;
@@ -107,12 +114,33 @@ function gw_add_manual_notification_event( $events ) {
 			}
 			$events[$cronName] = __( $cron['size'].' '.$period.' after Form is submitted' );
 		}
+		
+		// partial entries addon events
+		if ( class_exists( 'GF_Partial_Entries' ) ) {
+		    foreach($crons as $cron){
+			if(!is_array($cron)) continue;
+			$cronName = 'partial_cron_'.$cron['size'].'_'.$cron['unit'];
+			switch($cron['unit']){
+			    case 'm':
+				$period = 'minute(s)';
+				break;
+			    case 'h':
+				$period = 'hour(s)';
+				break;
+			    case 'd':
+				$period = 'day(s)';
+				break;
+			}
+			$events[$cronName] = __( $cron['size'].' '.$period.' after Partial Entries: Saved' );
+		    }
+		}
 	}
 	
     return $events;
 }
 
 add_action( 'gform_after_submission', 'schedule_notifications', 10, 2 );
+add_action( 'gform_partialentries_post_entry_saved', 'schedule_notifications', 10, 2 ); // partial entries addon events
 function schedule_notifications( $entry, $form ) {
 	
 	/* shedule cron notifications */
@@ -169,6 +197,7 @@ function gfc_get_notifications_by_event($event, $form, $lead){
 
 function gfc_get_timestamp_from_event($event){
 	$timestamp = false;
+	$event = str_replace('partial_','',$event); // remove any 'partial_' prefix (used for Partial Entries addon events)
 	$eventParts = explode('_',$event);
 	
 	

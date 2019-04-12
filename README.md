@@ -13,6 +13,8 @@ Plugin works with all Gravity’s Forms functionalities such as:
 * condition logic
 * action hooks
 
+Plugin is also compatible with [Gravity Form Partial Entries addon](https://www.gravityforms.com/gravity-forms-introduces-partial-entries-add/). Allowing to setup delayed notifications after the "Partial entries: saved" event. 
+
 You can also browse all notifications planed to be send per entry.
 
 ![alt text](http://www.zewlak.com/wp-content/uploads/2016/01/delayed.png "Notification configuration view")
