@@ -70,12 +70,19 @@ function get_events_from_settings(){
 	$events = array();
 	$crons = AdminPageFramework::getOption( 'APF_AddFields', 'gfc_crons' );
 	
-	$crons[] = array('size' => 5, 'unit'=> 'min');
+	$crons[] = array('size' => 5, 'unit'=> 'm');
 	if(sizeof($crons)){
 		foreach($crons as $cron){
 			if(!is_array($cron)) continue;
 			$cronName = 'cron_'.$cron['size'].'_'.$cron['unit'];
 			$events[] = $cronName;
+		}
+		if ( class_exists( 'GF_Partial_Entries' ) ) {
+			foreach($crons as $cron){
+				if(!is_array($cron)) continue;
+				$cronName = 'partial_cron_'.$cron['size'].'_'.$cron['unit'];
+				$events[] = $cronName;
+			}
 		}
 	}
 	
@@ -89,7 +96,7 @@ add_filter( 'gform_notification_events', 'gw_add_manual_notification_event' );
 function gw_add_manual_notification_event( $events ) {
 	
 	$crons = AdminPageFramework::getOption( 'APF_AddFields', 'gfc_crons' );
-	$crons[] = array('size' => 5, 'unit'=> 'min');
+	$crons[] = array('size' => 5, 'unit'=> 'm');
 	if(sizeof($crons)){
 		foreach($crons as $cron){
 			if(!is_array($cron)) continue;
@@ -107,12 +114,33 @@ function gw_add_manual_notification_event( $events ) {
 			}
 			$events[$cronName] = __( $cron['size'].' '.$period.' after Form is submitted' );
 		}
+		
+		// partial entries addon events
+		if ( class_exists( 'GF_Partial_Entries' ) ) {
+		    foreach($crons as $cron){
+			if(!is_array($cron)) continue;
+			$cronName = 'partial_cron_'.$cron['size'].'_'.$cron['unit'];
+			switch($cron['unit']){
+			    case 'm':
+				$period = 'minute(s)';
+				break;
+			    case 'h':
+				$period = 'hour(s)';
+				break;
+			    case 'd':
+				$period = 'day(s)';
+				break;
+			}
+			$events[$cronName] = __( $cron['size'].' '.$period.' after Partial Entries: Saved' );
+		    }
+		}
 	}
 	
     return $events;
 }
 
 add_action( 'gform_after_submission', 'schedule_notifications', 10, 2 );
+add_action( 'gform_partialentries_post_entry_saved', 'schedule_notifications', 10, 2 ); // partial entries addon events
 function schedule_notifications( $entry, $form ) {
 	
 	/* shedule cron notifications */
@@ -139,7 +167,11 @@ function gfc_send_cron_notification( $options) {
 	$event = $options->event;
 	$form = GFAPI::get_form($options->form_id);
 	$lead = GFAPI::get_entry($options->entry_id);
-	GFCommon::send_notifications( $options->notifications, $form, $lead, true, $event );
+	
+	// add a filter to alter the notifications to send (it is too late to use gform_disable_notification)
+	$notifications_to_send = apply_filters('gfc_notifications_to_send', $options->notifications, $form, $lead);
+	
+	GFCommon::send_notifications( $notifications_to_send, $form, $lead, true, $event );
 	die();
 }
 
@@ -165,6 +197,7 @@ function gfc_get_notifications_by_event($event, $form, $lead){
 
 function gfc_get_timestamp_from_event($event){
 	$timestamp = false;
+	$event = str_replace('partial_','',$event); // remove any 'partial_' prefix (used for Partial Entries addon events)
 	$eventParts = explode('_',$event);
 	
 	
@@ -512,7 +545,7 @@ class TT_Example_List_Table extends WP_List_Table {
 									
 									$element = array(
 										'ID'        => $cronId,
-										'entry'    => 'Entry id: <a href="http://www.zewlak.com/wp-admin/admin.php?page=gf_entries&view=entry&id='.$form['id'].'&lid='.$lead['id'].'&dir=DESC&filter&paged=1&pos=0&field_id&operator">'.$lead['id'].'</a>',
+										'entry'    => 'Entry id: <a href="'. admin_url ('admin.php?page=gf_entries&view=entry&id='.$form['id'].'&lid='.$lead['id'].'&dir=DESC&filter&paged=1&pos=0&field_id&operator').'">'.$lead['id'].'</a>',
 										'title'     => $form['title'],
 										'date'    => gfc_get_next_cron_execution($timestamp,$options->event),
 										'form'  => $form['notifications'][$notification]['name']
